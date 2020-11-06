@@ -6,7 +6,9 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strconv"
 	"sync"
+	"time"
 
 	"github.com/jessevdk/go-flags"
 	"github.com/nritholtz/stdemuxerhook"
@@ -23,13 +25,15 @@ var opts struct {
 	ModulePath string `short:"p" long:"module_path" default:"./vendor/modules" description:"File path to install generated terraform modules"`
 
 	TerrafilePath string `short:"f" long:"terrafile_file" default:"./Terrafile" description:"File path to the Terrafile file"`
+
+	WaitTime string `short:"w" long:"wait_time" default:"2" description:"Number of seconds to wait between each git clone"`
 }
 
 // To be set by goreleaser on build
 var (
-	version = "dev"
-	commit  = "none"
-	date    = "unknown"
+	version = "InfinityWorksConsulting-v1.0.0"
+	commit  = "Adding wait time as an optional flag"
+	date    = "Friday 6th November 2020"
 )
 
 func init() {
@@ -68,12 +72,19 @@ func main() {
 		log.Fatalln(err)
 	}
 
+	// Parse Wait Time
+	waitTime, err := strconv.ParseInt(opts.WaitTime, 10, 32)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
 	// Clone modules
 	var wg sync.WaitGroup
 	_ = os.RemoveAll(opts.ModulePath)
 	_ = os.MkdirAll(opts.ModulePath, os.ModePerm)
 	for key, mod := range config {
 		wg.Add(1)
+		time.Sleep(time.Duration(waitTime) * time.Second)
 		go func(m module, key string) {
 			defer wg.Done()
 			gitClone(m.Source, m.Version, key)
