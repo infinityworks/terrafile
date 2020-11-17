@@ -40,3 +40,15 @@ $ terrafile -p custom_directory
 INFO[0000] [*] Checking out master of git@github.com:terraform-aws-modules/terraform-aws-vpc  
 INFO[0001] [*] Checking out v1.46.0 of git@github.com:terraform-aws-modules/terraform-aws-vpc  
 ```
+
+Example Terraform 12 project.tf file
+
+```hcl
+module "vpc_1" {
+  source = "./vendor/modules/tf-aws-vpc"
+}
+
+module "vpc_2" {
+  source = "./vendor/modules/tf-aws-vpc-experimental"
+}
+```
