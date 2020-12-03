@@ -41,6 +41,22 @@ INFO[0000] [*] Checking out master of git@github.com:terraform-aws-modules/terra
 INFO[0001] [*] Checking out v1.46.0 of git@github.com:terraform-aws-modules/terraform-aws-vpc  
 ```
 
+Invoking a wait time of 1 second between each git clone (defaults to 2)
+
+```sh
+$ terrafile -w 0
+INFO[0000] [*] Checking out master of git@github.com:terraform-aws-modules/terraform-aws-vpc  
+INFO[0001] [*] Checking out v1.46.0 of git@github.com:terraform-aws-modules/terraform-aws-vpc  
+```
+
+Invoking with a maxiumum of 3 retry attempts per git clone (defaults to 5)
+
+```sh
+$ terrafile -m 3
+INFO[0000] [*] Checking out master of git@github.com:terraform-aws-modules/terraform-aws-vpc  
+INFO[0001] [*] Checking out v1.46.0 of git@github.com:terraform-aws-modules/terraform-aws-vpc  
+```
+
 Example Terraform 12 project.tf file
 
 ```hcl
