@@ -4,8 +4,30 @@
 # yq https://github.com/mikefarah/yq
 # jq https://github.com/stedolan/jq
 
+check_tput() {
+  if `tput -V &> /dev/null`; then
+    export bold=$(tput bold)
+    export green=$(tput setaf 2)
+    export blue=$(tput setaf 4)
+    export red=$(tput setaf 1)
+    export normal=$(tput sgr0)
+  fi
+}
+
+check_tput
+
 if [[ -z $GIT_TOKEN ]]; then
-    echo "Please export a variable named 'GIT_TOKEN' containing personal access token for GitLab"
+    echo "${red}Please export a variable named ${bold}GIT_TOKEN${normal}${red} containing your personal access token for GitLab${normal}"
+    exit 1
+fi
+
+if ! `which terrafile &> /dev/null`; then
+    echo "${red}${bold}Terrafile${normal}${red} not found in your path, please install it. Exiting...${normal}"
+    exit 1
+fi
+
+if ! `which yq &> /dev/null`; then
+    echo "${red}${bold}YQ${normal}${red} not found in your path, please install it. Exiting...${normal}"
     exit 1
 fi
 
@@ -31,9 +53,9 @@ function checkVersion {
     # echo "LOCAL_VERSION: $LOCAL_VERSION"
 
     if [[ "$REPO_VERSION" != "$LOCAL_VERSION" ]]; then
-        echo "FAIL: $1 - repo: $REPO_VERSION / local: $LOCAL_VERSION" 
+        echo "${red}FAIL:${normal} $1 - repo: ${blue}$REPO_VERSION${normal} / local: ${red}$LOCAL_VERSION${normal}" 
     else
-        echo "PASS: $1 - version: $REPO_VERSION" 
+        echo "${green}PASS:${normal} $1 - version: ${blue}$REPO_VERSION"${normal}
     fi
 }
 
