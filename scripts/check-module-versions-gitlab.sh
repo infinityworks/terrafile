@@ -46,7 +46,8 @@ function checkVersion {
 
     # API documentation - https://docs.gitlab.com/ee/api/tags.html
     API="https://$SOURCE_DOMAIN/api/v4/projects/$SOURCE_PATH"
-    REPO_VERSION=`curl -qfs $API/repository/tags?private_token=$GIT_TOKEN | jq .[0].name -r `
+    RESPONSE=`curl -qfs  --header "PRIVATE-TOKEN: $GIT_TOKEN" $API/repository/tags`
+    REPO_VERSION=`jq .[0].name -r <<< "$RESPONSE"`
     LOCAL_VERSION=`yq read Terrafile $1.version`
 
     # echo "REPO_VERSION: $REPO_VERSION"
