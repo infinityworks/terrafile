@@ -49,7 +49,7 @@ INFO[0000] [*] Checking out master of git@github.com:terraform-aws-modules/terra
 INFO[0001] [*] Checking out v1.46.0 of git@github.com:terraform-aws-modules/terraform-aws-vpc  
 ```
 
-Invoking with a maxiumum of 3 retry attempts per git clone (defaults to 5)
+Invoking with a maximum of 3 retry attempts per git clone (defaults to 5)
 
 ```sh
 $ terrafile -m 3
